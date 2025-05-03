@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Following - Instagram Replica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffc2d1 0%, #ffb6c1 50%, #ffa6c9 100%);
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: linear-gradient(to right, #ff6b9d, #ff4d94);
+      padding: 18px 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(255, 77, 148, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      z-index: 0;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      position: relative;
+      padding: 5px 10px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover {
+      transform: translateY(-2px);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    button {
+      background-color: white;
+      color: #ff4d94;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #ff4d94;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 15px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(255, 166, 201, 0.15);
+      transition: all 0.3s ease;
+    }
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(255, 77, 148, 0.2);
+    }
+    .user-list {
+      list-style: none;
+      padding: 0;
+    }
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #ffc2d1;
+      background-color: white;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(255, 166, 201, 0.1);
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-name {
+      font-weight: bold;
+      color: #333;
+    }
+    .user-id {
+      color: #999;
+      font-size: 0.9rem;
+    }
+    .user-link {
+      text-decoration: none;
+      color: inherit;
+    }
+    h1 {
+      color: white;
+      margin: 0;
+      font-size: 1.8rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.5px;
+    }
+    h2 {
+      color: #ff3385;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+    }
+    p {
+      text-align: center;
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(255, 166, 201, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Instagram Replica</h1>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/profile/{{ current_user.id }}">Profile</a>
+      <button id="sign-out">Sign Out</button>
+    </div>
+  </header>
+
+  <a href="/profile/{{ profile_user.id }}" class="back-button">← Back to profile</a>
+
+  <h2>{{ profile_user.name }} is Following</h2>
+
+  {% if following_users %}
+    <ul class="user-list">
+      {% for followed in following_users %}
+        <li class="user-item">
+          <a href="/profile/{{ followed.id }}" class="user-link">
+            <div class="user-info">
+              <span class="user-name">{{ followed.name }}</span>
+              <span class="user-id">@{{ followed.id }}</span>
+            </div>
+          </a>
+          
+          {% if current_user.id != followed.id %}
+            {% if followed.id in current_user.following %}
+              <form action="/unfollow/{{ followed.id }}" method="post">
+                <button type="submit">Unfollow</button>
+              </form>
+            {% else %}
+              <form action="/follow/{{ followed.id }}" method="post">
+                <button type="submit">Follow</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{{ profile_user.name }} is not following anyone yet.</p>
+  {% endif %}
+
+  <script>
+    // Sign out functionality
+    document.getElementById('sign-out').addEventListener('click', function() {
+      // Clear auth token cookie
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      
+      // Redirect to login page
+      window.location.href = '/login';
+    });
+  </script>
+</body>
+</html>

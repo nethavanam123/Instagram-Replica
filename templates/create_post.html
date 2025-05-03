@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Post - Instagram Replica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffcad4 0%, #f8bbd0 100%);
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #e91e63;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: #ad1457;
+    }
+    h1 {
+      color: #e91e63;
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    h2 {
+      margin: 0;
+      color: #880e4f;
+      font-size: 1.4rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.1);
+    }
+    label {
+      font-weight: bold;
+      color: #880e4f;
+      display: flex;
+      flex-direction: column;
+    }
+    .image-preview {
+      width: 100%;
+      height: 300px;
+      border: 2px dashed #f48fb1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 12px;
+      background-color: #fce4ec;
+      margin-top: 10px;
+      transition: all 0.3s;
+    }
+    .image-preview:hover {
+      border-color: #e91e63;
+    }
+    .image-preview img {
+      max-width: 100%;
+      max-height: 300px;
+    }
+    .image-preview-text {
+      color: #c2185b;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .image-preview-text p {
+      margin: 0;
+      font-size: 14px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 15px;
+      border: 2px solid #f8bbd0;
+      border-radius: 12px;
+      resize: vertical;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #e91e63;
+      box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+    }
+    .hidden-file-input {
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+    .create-post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .post-icon {
+      background-color: #fce4ec;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .post-form {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .label-text {
+      font-size: 16px;
+      color: #880e4f;
+    }
+    .label-hint {
+      font-size: 12px;
+      color: #ad1457;
+      font-weight: normal;
+    }
+    .file-upload-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .file-upload-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #fce4ec;
+      color: #e91e63;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    .file-upload-button:hover {
+      background-color: #f8bbd0;
+    }
+    .post-button {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      align-self: center;
+      box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+    }
+    .post-button:hover {
+      background-color: #c2185b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(233, 30, 99, 0.3);
+    }
+    #sign-out {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    #sign-out:hover {
+      background-color: #c2185b;
+    }
+    .error-message {
+      color: #d50000;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Instagram Replica</h1>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/profile/{{ user_id }}">Profile</a>
+      <button id="sign-out">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="create-post-header">
+    <div class="post-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#e91e63"/>
+      </svg>
+    </div>
+    <h2>Create New Post</h2>
+  </div>
+
+  <form action="/create-post" method="POST" enctype="multipart/form-data" class="post-form">
+    <div class="form-section">
+      <label for="image">
+        <span class="label-text">Upload Image</span>
+        <span class="label-hint">(PNG or JPG only)</span>
+      </label>
+      <div class="file-upload-container">
+        <label for="image" class="file-upload-button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 5V19H5V5H19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14.14 11.86L11.14 15.73L9 13.14L6 17H18L14.14 11.86Z" fill="#e91e63"/>
+          </svg>
+          Choose File
+        </label>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" required onchange="previewImage(this)" class="hidden-file-input">
+      </div>
+      <div class="image-preview" id="image-preview">
+        <div class="image-preview-text">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 5V19H5V5H19ZM19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14.14 11.86L11.14 15.73L9 13.14L6 17H18L14.14 11.86Z" fill="#f48fb1"/>
+          </svg>
+          <p>Image preview will appear here</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label for="caption" class="label-text">Caption</label>
+      <textarea id="caption" name="caption" placeholder="Write a caption..." required></textarea>
+    </div>
+
+    <button type="submit" class="post-button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white"/>
+      </svg>
+      Post
+    </button>
+  </form>
+
+  <script>
+    // Sign out functionality
+    document.getElementById('sign-out').addEventListener('click', function() {
+      // This will be handled by firebase-auth.js, but we can add a fallback
+      if (window.signOut) {
+        window.signOut();
+      } else {
+        window.location.href = "/logout";
+      }
+    });
+
+    // Image preview functionality
+    function previewImage(input) {
+      const preview = document.getElementById('image-preview');
+      const previewText = preview.querySelector('.image-preview-text');
+      
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Check if file is PNG or JPG
+        if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+          alert('Please select a PNG or JPG image file.');
+          input.value = '';
+          return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          // Clear preview
+          while (preview.firstChild) {
+            preview.removeChild(preview.firstChild);
+          }
+          
+          // Create preview image
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          preview.appendChild(img);
+        };
+        
+        reader.readAsDataURL(file);
+      } else {
+        // Reset preview
+        preview.innerHTML = '<div class="image-preview-text">Image preview will appear here</div>';
+      }
+    }
+  </script>
+</body>
+</html>

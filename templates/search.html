@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Instagram Replica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffc2d1 0%, #ffb6c1 50%, #ffa6c9 100%);
+      color: #262626;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      background: linear-gradient(to right, #ff6b9d, #ff4d94);
+      padding: 18px 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(255, 77, 148, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      z-index: 0;
+    }
+    h1 {
+      color: white;
+      margin: 0;
+      font-size: 1.8rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.5px;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ff4d94;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      position: relative;
+      padding: 5px 10px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover {
+      transform: translateY(-2px);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    button {
+      background-color: white;
+      color: #ff4d94;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    form {
+      margin-bottom: 25px;
+    }
+    .search-container {
+      display: flex;
+      gap: 10px;
+    }
+    .search-bar {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #ffb6c1;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-sizing: border-box;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .search-bar:focus {
+      outline: none;
+      border-color: #ff69b4;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(255,105,180,0.2);
+    }
+    .user-list {
+      list-style: none;
+      padding: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #ffe4e1;
+    }
+    .user-item:last-child {
+      border-bottom: none;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #262626;
+    }
+    .user-username {
+      color: #db7093;
+      font-size: 14px;
+      margin-top: 3px;
+    }
+    .user-link {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #ffc0cb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff1493;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .follow-button {
+      background-color: #ff4d94;
+      color: white;
+    }
+    .unfollow-button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    .unfollow-button:hover {
+      background-color: #e6e6e6;
+      transform: translateY(-2px);
+    }
+    .no-results {
+      color: #c71585;
+      text-align: center;
+      padding: 30px 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Instagram Replica</h1>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/profile/{{ user_id }}">Profile</a>
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit">Sign Out</button>
+      </form>
+    </div>
+  </header>
+
+  <h2>Search Users</h2>
+
+  <form action="/search" method="GET">
+    <div class="search-container">
+      <input type="text" name="query" placeholder="Search for users..." class="search-bar" value="{{ query if query else '' }}">
+      <button type="submit">Search</button>
+    </div>
+  </form>
+
+  {% if search_results %}
+    <ul class="user-list">
+      {% for user in search_results %}
+        <li class="user-item">
+          <a href="/profile/{{ user.id }}" class="user-link">
+            <div class="user-avatar">
+              {% if user.profile_picture %}
+                <img src="{{ user.profile_picture }}" alt="{{ user.name }}" width="44" height="44">
+              {% else %}
+                {{ user.name[0].upper() }}
+              {% endif %}
+            </div>
+            <div class="user-info">
+              <span class="user-name">{{ user.name }}</span>
+              <span class="user-username">
+                {% if user.username %}
+                  @{{ user.username }}
+                {% endif %}
+              </span>
+            </div>
+          </a>
+          {% if user.id != user_id %}
+            {% if user.id in current_user.following %}
+              <form action="/unfollow/{{ user.id }}" method="POST">
+                <input type="hidden" name="redirect_url" value="/search?query={{ query }}">
+                <button type="submit" class="unfollow-button">Following</button>
+              </form>
+            {% else %}
+              <form action="/follow/{{ user.id }}" method="POST">
+                <input type="hidden" name="redirect_url" value="/search?query={{ query }}">
+                <button type="submit" class="follow-button">Follow</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif query %}
+    <p class="no-results">No users found matching "{{ query }}"</p>
+  {% else %}
+    <p class="no-results">Enter a name to search for users</p>
+  {% endif %}
+</body>
+</html>
